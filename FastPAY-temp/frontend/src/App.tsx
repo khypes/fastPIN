@@ -1,4 +1,4 @@
-﻿import React, { useEffect, Suspense } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import WebApp from '@twa-dev/sdk';
@@ -59,9 +59,8 @@ const App: React.FC = () => {
   useEffect(() => {
     if (WebApp.ready) WebApp.ready();
     if (WebApp.expand) WebApp.expand();
-    const lang = WebApp.initDataUnsafe?.user?.language_code || 'uz';
-    const supported = ['uz', 'ru', 'en'];
-    initI18n(supported.includes(lang) ? lang : 'uz');
+    // WebApp faqat O'zbek tilida ishlaydi
+    initI18n('uz');
   }, []);
 
   return (
