@@ -25,10 +25,13 @@ import AdminTopUpPage from './pages/admin/AdminTopUpPage';
 import AdminAccountsPage from './pages/admin/AdminAccountsPage';
 import axios from 'axios';
 
+import GlobalTopBar from './components/GlobalTopBar';
+
 const queryClient = new QueryClient();
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => (
-  <div className="relative min-h-screen bg-bg font-sans">
+  <div className="relative min-h-screen bg-bg font-sans pb-20">
+    <GlobalTopBar />
     {children}
     <BottomNav />
   </div>

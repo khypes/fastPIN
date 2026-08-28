@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from '../components/Header';
 import api from '../api';
 
 const C = {
@@ -15,7 +14,6 @@ const C = {
 
 const OrdersPage: React.FC = () => {
   const navigate = useNavigate();
-  const [balance, setBalance] = useState<number>(0);
   const [orders, setOrders] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -28,11 +26,8 @@ const OrdersPage: React.FC = () => {
 
   const fetchData = useCallback(() => {
     setIsLoading(true); setError(null);
-    Promise.all([api.get('/users/me'), api.get('/orders')])
-      .then(([userRes, ordersRes]) => {
-        setBalance(userRes.data.balance || 0);
-        setOrders(ordersRes.data || []);
-      })
+    api.get('/orders')
+      .then(res => setOrders(res.data || []))
       .catch(() => setError("Ma'lumotlarni yuklashda xatolik yuz berdi."))
       .finally(() => setIsLoading(false));
   }, []);
@@ -47,8 +42,6 @@ const OrdersPage: React.FC = () => {
 
   return (
     <div className="page-container" style={{ background: C.bg }}>
-      <Header balance={balance} />
-
       <div style={{ padding: '16px' }}>
         <h1 style={{ color: C.text, fontWeight: 900, fontSize: '1.3rem', marginBottom: 20 }}>Buyurtmalar tarixi</h1>
 

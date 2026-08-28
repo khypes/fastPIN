@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import api from '../api';
-import Header from '../components/Header';
 
 const C = {
   bg: '#111321',
@@ -61,7 +60,6 @@ const AccountsPage: React.FC = () => {
   );
   const [accounts, setAccounts] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [balance, setBalance] = useState(0);
 
   // UC state
   const [playerId, setPlayerId] = useState('');
@@ -83,10 +81,6 @@ const AccountsPage: React.FC = () => {
   const [buyType, setBuyType] = useState<'uc' | 'stars' | null>(null);
   const [isBuying, setIsBuying] = useState(false);
   const buyLock = useRef(false);
-
-  useEffect(() => {
-    api.get('/users/me').then(r => setBalance(r.data.balance || 0)).catch(() => {});
-  }, []);
 
   useEffect(() => {
     if (activeTab === 'accounts') {
@@ -143,8 +137,6 @@ const AccountsPage: React.FC = () => {
       if (window.Telegram?.WebApp?.showAlert) window.Telegram.WebApp.showAlert(msg);
       else alert(msg);
       setSelectedUC(null); setSelectedStars(null); setBuyType(null);
-      // Refresh balance
-      api.get('/users/me').then(r => setBalance(r.data.balance || 0)).catch(() => {});
     } catch (error: any) {
       triggerHaptic('heavy');
       const msg = error.response?.data?.message || 'Xatolik yuz berdi. Qayta urinib ko\'ring.';
@@ -287,8 +279,6 @@ const AccountsPage: React.FC = () => {
 
   return (
     <div className="page-container" style={{ background: C.bg }}>
-      <Header balance={balance} />
-
       <div style={{ padding: '16px 16px 0' }}>
         {/* ── Tab switcher ── */}
         <div style={{ display: 'flex', background: C.card, borderRadius: 18, padding: 4, border: `1.5px solid ${C.border}`, marginBottom: 20 }}>

@@ -207,6 +207,34 @@
 .bg-card2 { background: #1a1d36; }
 .border-card { border: 1px solid #3C4378; }
 
+/* ─── Typography Hierarchy ─── */
+.nav-header {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #9298C2;
+}
+.product-title {
+  font-size: 0.85rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  line-height: 1.2;
+  color: #F5F5FF;
+}
+.price-text {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #6F78F0;
+}
+.helper-text {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #9298C2;
+  line-height: 1.5;
+}
+
 .text-gradient {
   background: linear-gradient(135deg, #6F78F0, #858CF5);
   -webkit-background-clip: text;

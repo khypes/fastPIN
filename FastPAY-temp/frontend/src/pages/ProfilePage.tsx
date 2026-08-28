@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../components/Header';
 import api from '../api';
 
 const C = {
@@ -13,14 +12,12 @@ const C = {
 };
 
 const ProfilePage: React.FC = () => {
-  const [balance, setBalance] = useState<number>(0);
   const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const res = await api.get('/users/me');
-        setBalance(Number(res.data.balance) || 0);
         setUser(res.data);
       } catch (e) {}
     };
@@ -80,8 +77,6 @@ const ProfilePage: React.FC = () => {
 
   return (
     <div className="page-container" style={{ background: C.bg }}>
-      <Header balance={balance} />
-
       <div style={{ padding: '24px 16px 0', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         {/* Avatar */}
         <div style={{ position: 'relative', marginBottom: 12 }}>
