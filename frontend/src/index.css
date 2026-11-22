@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+:root {
+  /* Default: Dark theme (Dark-first approach) */
+  --bg: #0C0E1A;
+  --surface-1: #151829;
+  --surface-2: #1D223B;
+  --border: #252C48;
+  --border-focus: #3B82F6;
+  --text: #F8FAFC;
+  --text-secondary: #9AA5BE;
+  --text-tertiary: #626F88;
+  --accent: #2563EB;
+  --accent-text: #FFFFFF;
+  --accent-hover: #1D4ED8;
+  --accent-soft: rgba(37, 99, 235, 0.16);
+  --success: #10B981;
+  --success-soft: rgba(16, 185, 129, 0.16);
+  --warn: #F59E0B;
+  --warn-soft: rgba(245, 158, 11, 0.16);
+  --danger: #EF4444;
+  --danger-soft: rgba(239, 68, 68, 0.16);
+
+  /* Radius: Only 4 valid radii */
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 9999px;
+
+  /* Typography */
+  --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Transitions */
+  --ease-smooth: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+}
+
+[data-theme="light"], .light {
+  --bg: #F8FAFC;
+  --surface-1: #FFFFFF;
+  --surface-2: #F1F5F9;
+  --border: #E2E8F0;
+  --border-focus: #3E5CF5;
+  --text: #0F172A;
+  --text-secondary: #64748B;
+  --text-tertiary: #94A3B8;
+  --accent: #3E5CF5;
+  --accent-text: #FFFFFF;
+  --accent-hover: #2D4BD4;
+  --accent-soft: rgba(62, 92, 245, 0.12);
+  --success: #10B981;
+  --success-soft: rgba(16, 185, 129, 0.12);
+  --warn: #F59E0B;
+  --warn-soft: rgba(245, 158, 11, 0.12);
+  --danger: #EF4444;
+  --danger-soft: rgba(239, 68, 68, 0.12);
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    width: 100%;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    transition: background-color var(--duration-normal) var(--ease-smooth),
+                color var(--duration-normal) var(--ease-smooth);
+    user-select: none;
+    -webkit-user-select: none;
+    overflow-x: hidden;
+  }
+
+  /* Raqamlar har doim tabular-nums */
+  .tabular-nums, input[type="number"], .price-value {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Scrollbars hidden for clean native mini-app feel */
+  ::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+  }
+}
+
+/* ─── Token Utilities ─── */
+.bg-app { background-color: var(--bg); }
+.bg-surface-1 { background-color: var(--surface-1); }
+.bg-surface-2 { background-color: var(--surface-2); }
+.bg-accent { background-color: var(--accent); color: var(--accent-text); }
+.bg-accent-soft { background-color: var(--accent-soft); }
+.bg-success-soft { background-color: var(--success-soft); }
+.bg-warn-soft { background-color: var(--warn-soft); }
+.bg-danger-soft { background-color: var(--danger-soft); }
+
+.text-main { color: var(--text); }
+.text-sec { color: var(--text-secondary); }
+.text-ter { color: var(--text-tertiary); }
+.text-brand { color: var(--accent); }
+.text-success { color: var(--success); }
+.text-warn { color: var(--warn); }
+.text-danger { color: var(--danger); }
+
+.border-main { border-color: var(--border); }
+.border-focus { border-color: var(--border-focus); }
+
+.rounded-sm-app { border-radius: var(--radius-sm); }
+.rounded-md-app { border-radius: var(--radius-md); }
+.rounded-lg-app { border-radius: var(--radius-lg); }
+.rounded-pill-app { border-radius: var(--radius-pill); }
+
+/* Touch Target Minimum (44px) */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Animations */
+@keyframes skeleton-shimmer {
+  0% { opacity: 0.45; }
+  50% { opacity: 0.85; }
+  100% { opacity: 0.45; }
+}
+
+.animate-skeleton {
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+/* Bottom safe area padding helper */
+.safe-bottom-padding {
+  padding-bottom: calc(env(safe-area-inset-bottom, 16px) + 68px);
+}

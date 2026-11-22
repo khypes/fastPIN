@@ -1,5 +1,50 @@
+# Dependencies
 node_modules/
+frontend/node_modules/
+backend/node_modules/
 dist/
+frontend/dist/
+backend/dist/
+build/
+
+# Environment
 .env
+backend/.env
+frontend/.env
+*.env.local
+
+# Database
+*.db
+*.sqlite
+prisma/dev.db
+backend/dev.db
+
+# Logs
 *.log
+npm-debug.log*
+
+# Playwright & Screenshots
+screenshots/
+*.png
+!frontend/public/**/*.png
+!frontend/src/assets/**/*.png
+
+# Temporary test scripts
+take-screenshots*.cjs
+capture-profile.cjs
+
+# OS & IDE
 .DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Docker volumes
+postgres_data/
+redis_data/
+
+# Old temporary folders
+TezUC-monopero/
+FastPAY-temp/
+fastpay-monorepo/
+json files/
