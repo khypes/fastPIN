@@ -118,22 +118,24 @@ export const GameDetailPage: React.FC = () => {
 
     if (selectedTab === 'nabor') {
       return [
-        { id: 'pubg-prime-1', gameId, type: 'nabor', name: 'Prime (1 oy)', amount: 1, unit: 'oy', price: 12300, inStock: true },
-        { id: 'pubg-prime-3', gameId, type: 'nabor', name: 'Prime (3 oy)', amount: 3, unit: 'oy', price: 35000, inStock: false },
-        { id: 'pubg-prime-6', gameId, type: 'nabor', name: 'Prime (6 oy)', amount: 6, unit: 'oy', price: 67600, inStock: true },
-        { id: 'pubg-prime-12', gameId, type: 'nabor', name: 'Prime (12 oy)', amount: 12, unit: 'oy', price: 129400, inStock: true },
-        { id: 'pubg-plus-1', gameId, type: 'nabor', name: 'Prime Plus (1 oy)', amount: 1, unit: 'oy', price: 113200, inStock: true },
-        { id: 'pubg-plus-6', gameId, type: 'nabor', name: 'Prime Plus (6 oy)', amount: 6, unit: 'oy', price: 651000, inStock: true },
+        { id: 'pubg-prime-1',  gameId, type: 'nabor', name: 'Prime (1 oy)',      amount: 1,  unit: 'oy', price: 12300,   inStock: true  },
+        { id: 'pubg-prime-3',  gameId, type: 'nabor', name: 'Prime (3 oy)',      amount: 3,  unit: 'oy', price: 35000,   inStock: false },
+        { id: 'pubg-prime-6',  gameId, type: 'nabor', name: 'Prime (6 oy)',      amount: 6,  unit: 'oy', price: 67600,   inStock: true  },
+        { id: 'pubg-prime-12', gameId, type: 'nabor', name: 'Prime (12 oy)',     amount: 12, unit: 'oy', price: 129400,  inStock: true  },
+        { id: 'pubg-plus-1',   gameId, type: 'nabor', name: 'Prime Plus (1 oy)', amount: 1,  unit: 'oy', price: 113200,  inStock: true  },
+        { id: 'pubg-plus-3',   gameId, type: 'nabor', name: 'Prime Plus (3 oy)', amount: 3,  unit: 'oy', price: 0,       inStock: false },
+        { id: 'pubg-plus-6',   gameId, type: 'nabor', name: 'Prime Plus (6 oy)', amount: 6,  unit: 'oy', price: 651000,  inStock: true  },
+        { id: 'pubg-plus-12',  gameId, type: 'nabor', name: 'Prime Plus (12 oy)',amount: 12, unit: 'oy', price: 1215000, inStock: true  },
       ];
     }
 
     return [
-      { id: 'pubg-60', gameId, type: 'uc', name: '60 UC', amount: 60, unit: 'UC', price: 12000, oldPrice: 14000, inStock: true },
-      { id: 'pubg-325', gameId, type: 'uc', name: '300 + 25 UC', amount: 325, unit: 'UC', bonus: '+25 bonus', price: 58000, oldPrice: 65000, badge: 'popular', inStock: true },
-      { id: 'pubg-660', gameId, type: 'uc', name: '600 + 60 UC', amount: 660, unit: 'UC', bonus: '+60 bonus', price: 115000, oldPrice: 128000, badge: 'best_value', inStock: true },
-      { id: 'pubg-1800', gameId, type: 'uc', name: '1500 + 300 UC', amount: 1800, unit: 'UC', bonus: '+300 bonus', price: 285000, oldPrice: 310000, inStock: true },
-      { id: 'pubg-3850', gameId, type: 'uc', name: '3000 + 850 UC', amount: 3850, unit: 'UC', bonus: '+850 bonus', price: 570000, inStock: true },
-      { id: 'pubg-8100', gameId, type: 'uc', name: '6000 + 2100 UC', amount: 8100, unit: 'UC', bonus: '+2100 bonus', price: 1120000, inStock: false },
+      { id: 'pubg-60',   gameId, type: 'uc', name: '60 UC',   amount: 60,   unit: 'UC', price: 11840,   inStock: true,  iconImg: '/uc-icons/uc-60.png' },
+      { id: 'pubg-325',  gameId, type: 'uc', name: '325 UC',  amount: 325,  unit: 'UC', price: 59400,   inStock: true,  iconImg: '/uc-icons/uc-325.png' },
+      { id: 'pubg-660',  gameId, type: 'uc', name: '660 UC',  amount: 660,  unit: 'UC', price: 117700,  inStock: true,  iconImg: '/uc-icons/uc-60.png' },
+      { id: 'pubg-1800', gameId, type: 'uc', name: '1800 UC', amount: 1800, unit: 'UC', price: 294800,  inStock: true,  iconImg: '/uc-icons/uc-325.png' },
+      { id: 'pubg-3850', gameId, type: 'uc', name: '3850 UC', amount: 3850, unit: 'UC', price: 587000,  inStock: true,  iconImg: '/uc-icons/uc-60.png' },
+      { id: 'pubg-8100', gameId, type: 'uc', name: '8100 UC', amount: 8100, unit: 'UC', price: 1135000, inStock: true,  iconImg: '/uc-icons/uc-325.png' },
     ];
   };
 
@@ -375,7 +377,8 @@ export const GameDetailPage: React.FC = () => {
                   : 'text-sec hover:text-main'
               }`}
             >
-              🏷️ UC Paketlar
+              <img src="/uc-icons/uc-60.png" alt="UC" className="w-4 h-4 object-contain" />
+              UC
             </button>
             <button
               type="button"
@@ -390,7 +393,7 @@ export const GameDetailPage: React.FC = () => {
                   : 'text-sec hover:text-main'
               }`}
             >
-              📦 Naborlar
+              🎒 Naborlar
             </button>
           </div>
         )}
@@ -447,11 +450,15 @@ export const GameDetailPage: React.FC = () => {
               >
                 <div className="flex items-center justify-between mb-2">
                   {pack.iconImg ? (
-                    <img src={pack.iconImg} alt={pack.name} className="w-7 h-7 object-contain" />
+                    <img src={pack.iconImg} alt={pack.name} className="w-10 h-10 object-contain drop-shadow-md" />
+                  ) : pack.type === 'nabor' ? (
+                    <span className="text-2xl">👑</span>
+                  ) : pack.type === 'stars' ? (
+                    <span className="text-2xl">⭐</span>
+                  ) : pack.type === 'premium' ? (
+                    <span className="text-2xl">💎</span>
                   ) : (
-                    <div className="w-6 h-6 rounded-lg bg-surface-2 flex items-center justify-center text-accent text-xs font-bold">
-                      💎
-                    </div>
+                    <span className="text-2xl">🎁</span>
                   )}
 
                   {pack.badge && (
