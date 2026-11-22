@@ -9,10 +9,15 @@ export class PrismaService
   implements OnModuleInit, OnModuleDestroy
 {
   constructor() {
+    const url = process.env.DATABASE_URL;
+    if (!url && process.env.NODE_ENV === 'production') {
+      throw new Error('DATABASE_URL environment variable is required');
+    }
     const pool = new Pool({
       connectionString:
-        process.env.DATABASE_URL ||
-        'postgresql://postgres:postgres@localhost:5432/fastpay',
+        url || 'postgresql://postgres:postgres@localhost:5432/fastpay',
+      // Serverless (Vercel): har instansiya uchun kam ulanish
+      max: process.env.VERCEL ? 3 : 10,
     });
     const adapter = new PrismaPg(pool);
     super({

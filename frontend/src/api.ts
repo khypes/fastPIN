@@ -1,7 +1,10 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000/api',
+  // Productionda VITE_API_URL (masalan https://fastpin-api.vercel.app/api) berilishi shart.
+  baseURL:
+    import.meta.env.VITE_API_URL ||
+    (import.meta.env.PROD ? '/api' : 'http://localhost:3000/api'),
   headers: { 'Content-Type': 'application/json' },
 });
 

@@ -12,13 +12,14 @@ import {
 import { WalletService, PaymentMethod } from './wallet.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('wallet')
 export class WalletController {
   constructor(private readonly walletService: WalletService) {}
 
   @Get('balance')
   async getBalance(@Request() req: any) {
-    const userId = req.user?.id || 'demo-user-id';
+    const userId = req.user.id;
     return this.walletService.getBalance(userId);
   }
 
@@ -36,10 +37,9 @@ export class WalletController {
       amount: number;
       method: PaymentMethod;
       idempotencyKey: string;
-      userId?: string;
     },
   ) {
-    const userId = req.user?.id || body.userId || 'demo-user-id';
+    const userId = req.user.id;
     return this.walletService.createTopupSession(
       userId,
       Number(body.amount),
@@ -50,7 +50,7 @@ export class WalletController {
 
   @Get('topup/session/:id')
   async getSession(@Request() req: any, @Param('id') sessionId: string) {
-    const userId = req.user?.id || 'demo-user-id';
+    const userId = req.user.id;
     return this.walletService.getSessionStatus(userId, sessionId);
   }
 

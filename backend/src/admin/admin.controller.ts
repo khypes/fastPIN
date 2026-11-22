@@ -40,7 +40,7 @@ export class AdminJwtGuard implements CanActivate {
       const payload = this.jwtService.verify(token, {
         secret: this.configService.get('JWT_SECRET'),
       });
-      if (payload.role !== 'ADMIN' && payload.role !== 'SUPER_ADMIN')
+      if (payload.role !== 'SUPERADMIN' && payload.role !== 'MODERATOR')
         throw new UnauthorizedException();
       request.user = payload;
       return true;
@@ -66,12 +66,14 @@ export class AdminController {
   }
 
   // Dashboard
+  @UseGuards(AdminJwtGuard)
   @Get('dashboard')
   async getDashboard() {
     return this.adminService.getDashboardStats();
   }
 
   // Users
+  @UseGuards(AdminJwtGuard)
   @Get('users')
   async getUsers(
     @Query('page') page?: string,
@@ -85,6 +87,7 @@ export class AdminController {
     );
   }
 
+  @UseGuards(AdminJwtGuard)
   @Patch('users/:id/balance')
   async updateUserBalance(
     @Param('id') id: string,
@@ -94,6 +97,7 @@ export class AdminController {
   }
 
   // Accounts
+  @UseGuards(AdminJwtGuard)
   @Get('accounts')
   async getAccounts(
     @Query('page') page?: string,
@@ -107,22 +111,26 @@ export class AdminController {
     );
   }
 
+  @UseGuards(AdminJwtGuard)
   @Post('accounts')
   async addAccount(@Request() req, @Body() data: any) {
     return this.adminService.addAccount('admin', data);
   }
 
+  @UseGuards(AdminJwtGuard)
   @Patch('accounts/:id')
   async updateAccount(@Param('id') id: string, @Body() data: any) {
     return this.adminService.updateAccount(id, data);
   }
 
+  @UseGuards(AdminJwtGuard)
   @Delete('accounts/:id')
   async deleteAccount(@Param('id') id: string) {
     return this.adminService.deleteAccount(id);
   }
 
   // Orders
+  @UseGuards(AdminJwtGuard)
   @Get('orders')
   async getOrders(
     @Query('page') page?: string,
@@ -136,17 +144,20 @@ export class AdminController {
     );
   }
 
+  @UseGuards(AdminJwtGuard)
   @Patch('orders/:id/send-credentials')
   async sendCredentials(@Param('id') id: string) {
     return this.adminService.sendCredentials(id);
   }
 
+  @UseGuards(AdminJwtGuard)
   @Patch('orders/:id/resolve')
   async resolveDispute(@Param('id') id: string) {
     return this.adminService.resolveDispute(id);
   }
 
   // Top-up requests
+  @UseGuards(AdminJwtGuard)
   @Get('topup-requests')
   async getTopUpRequests(
     @Query('page') page?: string,
@@ -160,22 +171,26 @@ export class AdminController {
     );
   }
 
+  @UseGuards(AdminJwtGuard)
   @Patch('topup-requests/:id/approve')
   async approveTopup(@Param('id') id: string) {
     return this.adminService.approveTopUp(id, 'admin');
   }
 
+  @UseGuards(AdminJwtGuard)
   @Patch('topup-requests/:id/reject')
   async rejectTopup(@Param('id') id: string) {
     return this.adminService.rejectTopUp(id, 'admin');
   }
 
   // Verification
+  @UseGuards(AdminJwtGuard)
   @Get('verify/pubg/:id')
   async verifyPubgId(@Param('id') id: string) {
     return this.adminService.verifyPubgId(id);
   }
 
+  @UseGuards(AdminJwtGuard)
   @Get('verify/telegram/:username')
   async verifyTelegram(@Param('username') username: string) {
     return this.adminService.verifyTelegramUsername(username);

@@ -281,7 +281,7 @@ export class OrdersService {
           player_id: playerId,
           server_id: serverId,
           external_ref: externalRef,
-          notification_url: `${process.env.FRONTEND_URL || 'http://localhost:5173'}/api/webhooks/coindrop`,
+          notification_url: `${process.env.PUBLIC_API_URL || process.env.BACKEND_URL || 'http://localhost:3000'}/api/webhooks/coindrop`,
         });
 
         // Update order with CoinDrop order ID and status

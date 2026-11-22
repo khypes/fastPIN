@@ -1,4 +1,9 @@
-import { Injectable, BadRequestException, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  ConflictException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Prisma, PaymentProvider } from '@prisma/client';
 
@@ -214,8 +219,14 @@ export class WalletService {
 
   // DEV/TEST ONLY: Confirm topup simulation (like an instant payment webhook)
   async devConfirmTopup(sessionId: string, adminSecret?: string) {
-    if (adminSecret && adminSecret !== 'fastpay-dev-secret-2026') {
-      throw new BadRequestException('Noto\'g\'ri secret');
+    // Faqat lokal development uchun. Productionda butunlay o'chirilgan.
+    const expected = process.env.DEV_CONFIRM_SECRET;
+    if (
+      process.env.NODE_ENV === 'production' ||
+      !expected ||
+      adminSecret !== expected
+    ) {
+      throw new ForbiddenException('Bu endpoint o\'chirilgan');
     }
 
     const session = await this.prisma.topUpRequest.findUnique({

@@ -7,6 +7,23 @@ import TelegramBot from 'node-telegram-bot-api';
 export class BotService implements OnModuleInit {
   private bot: TelegramBot | null = null;
   private readonly logger = new Logger(BotService.name);
+  // Serverless (Vercel) da webhook ishlatiladi; handlerlar tugashini kutish uchun
+  private readonly pending = new Set<Promise<unknown>>();
+
+  /** Webhook rejimi: Vercel'da yoki TELEGRAM_WEBHOOK_SECRET berilganda polling o'chiq */
+  get isWebhookMode(): boolean {
+    return (
+      !!process.env.VERCEL ||
+      !!this.configService.get<string>('TELEGRAM_WEBHOOK_SECRET')
+    );
+  }
+
+  /** Telegram webhook'dan kelgan update'ni qayta ishlaydi va handlerlar tugashini kutadi */
+  async handleUpdate(update: any): Promise<void> {
+    if (!this.bot) return;
+    this.bot.processUpdate(update);
+    await Promise.allSettled([...this.pending]);
+  }
 
   constructor(
     private configService: ConfigService,
@@ -22,6 +39,23 @@ export class BotService implements OnModuleInit {
 
     try {
       this.bot = new TelegramBot(token, { polling: false });
+
+      // Handlerlar promise'larini kuzatish (webhook javobi handler tugagach qaytishi uchun)
+      const track =
+        (cb: any) =>
+        (...args: any[]) => {
+          const r = cb(...args);
+          if (r && typeof r.then === 'function') {
+            this.pending.add(r);
+            r.finally(() => this.pending.delete(r));
+          }
+          return r;
+        };
+      const b: any = this.bot;
+      const origOn = b.on.bind(b);
+      b.on = (ev: string, cb: any) => origOn(ev, track(cb));
+      const origOnText = b.onText.bind(b);
+      b.onText = (re: RegExp, cb: any) => origOnText(re, track(cb));
 
       // Handle polling errors safely without crashing the backend
       this.bot.on('polling_error', (err: any) => {
@@ -97,6 +131,12 @@ export class BotService implements OnModuleInit {
       // Verify token first before starting polling or setting menu button
       this.bot.getMe()
         .then(() => {
+          if (this.isWebhookMode) {
+            // Webhook rejimi: polling va menu button sozlamasi deploy paytida
+            // bir marta qilinadi (DEPLOY_VERCEL.md ga qarang).
+            this.logger.log('Telegram bot ready (webhook mode)');
+            return;
+          }
           this.bot!.startPolling();
           this.logger.log('Telegram bot started successfully (polling)');
 

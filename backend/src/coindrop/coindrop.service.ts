@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
 import { AxiosResponse } from 'axios';
 import { Redis } from 'ioredis';
+import { timingSafeEqual } from 'crypto';
 
 export interface CoinDropGame {
   key: string;
@@ -87,10 +88,16 @@ export class CoinDropService {
     this.webhookSecret = this.configService.get<string>('COINDROP_WEBHOOK_SECRET') || '';
 
     // Initialize Redis with error handling
+    // Redis ixtiyoriy: REDIS_URL (masalan Upstash) yoki REDIS_HOST berilmasa kesh o'chiq.
     try {
-      const redisHost = this.configService.get<string>('REDIS_HOST') || 'localhost';
+      const redisUrl = this.configService.get<string>('REDIS_URL');
+      const redisHost = this.configService.get<string>('REDIS_HOST');
+      if (!redisUrl && !redisHost) throw new Error('Redis not configured');
       const redisPort = this.configService.get<number>('REDIS_PORT') || 6379;
-      this.redis = new Redis({ host: redisHost, port: redisPort });
+      const opts = { lazyConnect: false, maxRetriesPerRequest: 1, enableOfflineQueue: false };
+      this.redis = redisUrl
+        ? new Redis(redisUrl, opts)
+        : new Redis({ host: redisHost, port: redisPort, ...opts });
       
       this.redis.on('connect', () => {
         this.logger.log('Redis connected successfully');
@@ -274,8 +281,12 @@ export class CoinDropService {
   }
 
   verifyWebhookSignature(payload: string, signature: string): boolean {
-    // Simple verification - in production, use HMAC
-    return signature === this.webhookSecret || this.webhookSecret === '';
+    // Secret sozlanmagan bo'lsa HECH QACHON qabul qilinmaydi.
+    // Eslatma: CoinDrop hujjatidagi imzo sxemasiga (oddiy secret yoki HMAC) moslang.
+    if (!this.webhookSecret || !signature) return false;
+    const a = Buffer.from(signature);
+    const b = Buffer.from(this.webhookSecret);
+    return a.length === b.length && timingSafeEqual(a, b);
   }
 
   private handleError(error: any, message: string): never {

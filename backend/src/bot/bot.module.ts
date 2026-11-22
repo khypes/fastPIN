@@ -1,8 +1,10 @@
 import { Module, Global } from '@nestjs/common';
 import { BotService } from './bot.service';
+import { BotController } from './bot.controller';
 
 @Global()
 @Module({
+  controllers: [BotController],
   providers: [BotService],
   exports: [BotService],
 })
