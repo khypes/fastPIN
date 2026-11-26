@@ -31,4 +31,4 @@ Frontend: `http://localhost:5173/` | Backend API: `http://localhost:3000/`
 - 🤖 **Telegram auth** — initData orqali xavfsiz autentifikatsiya
 - 🌐 **Ko'p tilli** — UZ / RU / EN
 - 💳 **Pul kiritish** — Uzcard/Humo, Click, Payme (qo'lda tasdiq)
-- 📱 **Dark mode UI** — tezPIN uslubidagi zamonaviy dizayn
+- 📱 **Dark mode UI** — fastPIN uslubidagi zamonaviy dizayn
